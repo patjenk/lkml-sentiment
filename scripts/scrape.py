@@ -4,6 +4,7 @@ from json import dumps
 import os
 import requests
 import urlparse
+from tqdm import tqdm
 
 
 def make_link_absolute(unabsolute_url, base_url):
@@ -19,7 +20,7 @@ def scrape():
     Roll through lmkl.org and start saving the archive locally.
     """
     archive_dir = "archive/"
-    start_datetime = datetime(year=2012, month=12, day=23, hour=0, minute=0, second=0)
+    start_datetime = datetime(year=2017, month=5, day=16, hour=0, minute=0, second=0)
     base_url = "http://lkml.org/lkml/{year}/{month}/{day}"
 
     try:
@@ -34,7 +35,7 @@ def scrape():
         lkml_day_message_set = set()
         day_http_request = requests.get(lkml_archive_day_url)
         soup = BeautifulSoup(day_http_request.text, "html.parser")
-        for a_tag in soup.find_all("a"):
+        for a_tag in tqdm(soup.find_all("a")):
             tag_href = a_tag.get("href")
             if "{year}/{month}/{day}/".format(year=current_datetime.year, month=current_datetime.month, day=current_datetime.day) in str(tag_href) and tag_href not in lkml_day_message_set:
                 lkml_day_message_set.add(tag_href)
