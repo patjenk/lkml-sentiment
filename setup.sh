@@ -24,3 +24,4 @@ sudo pip install wheel==0.24.0
 sudo pip install tqdm==4.19.5
 sudo pip install quotequail==0.2.3
 sudo pip install talon==1.4.4
+sudo pip install requests[security]
